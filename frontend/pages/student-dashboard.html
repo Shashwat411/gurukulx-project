@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - GurukulX</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    
+    <div class="container">
+        <div class="dashboard-container">
+            <!-- Header -->
+            <header class="dashboard-header">
+                <div class="header-left">
+                    <h1>Gurukul<span>X</span> Student Workspace</h1>
+                    <p>Student Dashboard</p>
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar" id="userInitial">S</div>
+                    <div class="user-details">
+                        <h4 id="studentName">Student Name</h4>
+                        <p id="studentRoll">Roll No: 2313001</p>
+                    </div>
+                    <button class="btn-secondary" onclick="logout()">Logout</button>
+                </div>
+            </header>
+            
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalSubmissions">0</div>
+                    <div class="stat-label">Total Submissions</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="pendingCount">0</div>
+                    <div class="stat-label">Pending</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="approvedCount">0</div>
+                    <div class="stat-label">Approved</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="rejectedCount">0</div>
+                    <div class="stat-label">Rejected</div>
+                </div>
+            </div>
+            
+            <!-- Upload Section -->
+            <section class="upload-section">
+                <h2 class="section-title">Upload Submission</h2>
+                <form id="uploadForm" class="upload-form">
+                    <div class="file-upload-area">
+                        <input type="file" id="fileInput" accept=".pdf,.docx,.zip" style="display: none;">
+                        <label for="fileInput" class="file-upload-label" id="fileLabel">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 16V4M8 12L12 16L16 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M4 20H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            <span>Click to select file</span>
+                            <small>PDF, DOCX, ZIP (Max 100MB)</small>
+                        </label>
+                        <div id="selectedFile" style="margin-top: 12px; color: var(--text-secondary);"></div>
+                    </div>
+                    
+                    <div class="input-group clay-input">
+                        <label>Submission Type</label>
+                        <select id="submissionType" required>
+                            <option value="">Select Type</option>
+                            <option value="assignment">Assignment</option>
+                            <option value="practical">Practical</option>
+                            <option value="microproject">Microproject</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group clay-input" id="assignmentNoGroup" style="display: none;">
+                        <label>Assignment Number</label>
+                        <select id="assignmentNo">
+                            <option value="">Select Assignment</option>
+                            <option value="1">Assignment 1</option>
+                            <option value="2">Assignment 2</option>
+                            <option value="3">Assignment 3</option>
+                            <option value="4">Assignment 4</option>
+                            <option value="5">Assignment 5</option>
+                            <option value="6">Assignment 6</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary">
+                        <span>Upload</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 16V4M8 12L12 16L16 12" stroke="currentColor" stroke-width="2"/>
+                            <path d="M4 20H20" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </button>
+                </form>
+            </section>
+            
+            <!-- Submissions Table -->
+            <section class="submissions-section">
+                <h2 class="section-title">My Submissions</h2>
+                <div class="table-wrapper">
+                    <table class="submissions-table">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Details</th>
+                                <th>File</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="submissionsTableBody">
+                            <tr>
+                                <td colspan="5" style="text-align: center;">Loading submissions...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <div class="footer">
+                © GurukulX | Government Polytechnic Nagpur | Created by Shashwat Developers Group
+            </div>
+        </div>
+    </div>
+    
+    <script src="../js/student.js"></script>
+</body>
+</html>

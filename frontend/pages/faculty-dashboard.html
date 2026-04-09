@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Dashboard - GurukulX</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    
+    <div class="container">
+        <div class="dashboard-container">
+            <!-- Header -->
+            <header class="dashboard-header">
+                <div class="header-left">
+                    <h1>Gurukul<span>X</span> Faculty Console</h1>
+                    <p>Faculty Dashboard - Cloud Computing (CM309H)</p>
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar" id="userInitial">F</div>
+                    <div class="user-details">
+                        <h4 id="facultyName">Prof. Sharma</h4>
+                        <p>Cloud Computing</p>
+                    </div>
+                    <button class="btn-secondary" onclick="logout()">Logout</button>
+                </div>
+            </header>
+            
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalSubmissions">0</div>
+                    <div class="stat-label">Total Submissions</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="pendingCount">0</div>
+                    <div class="stat-label">Pending Review</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="approvedCount">0</div>
+                    <div class="stat-label">Approved</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="rejectedCount">0</div>
+                    <div class="stat-label">Rejected</div>
+                </div>
+            </div>
+            
+            <!-- Submissions Table -->
+            <section class="submissions-section">
+                <h2 class="section-title">All Submissions</h2>
+                <div class="table-wrapper">
+                    <table class="submissions-table">
+                        <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>Roll No</th>
+                                <th>Type</th>
+                                <th>Details</th>
+                                <th>File</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="submissionsTableBody">
+                            <tr>
+                                <td colspan="8" style="text-align: center;">Loading submissions...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <div class="footer">
+                © GurukulX | Government Polytechnic Nagpur | Created by Shashwat Developers Group
+            </div>
+        </div>
+    </div>
+    
+    <script src="../js/faculty.js"></script>
+</body>
+</html>

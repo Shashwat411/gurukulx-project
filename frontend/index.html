@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GurukulX - Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Floating Background Blobs -->
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        
+        <!-- Login Card -->
+        <div class="login-container">
+            <div class="clay-card">
+                <div class="logo-section">
+                    <div class="logo-icon">GX</div>
+                    <h1>Gurukul<span>X</span> Portal</h1>
+                    <p class="subtitle">Government Polytechnic Nagpur</p>
+                    <p class="department">Computer Engineering Department</p>
+                </div>
+                
+                <form id="loginForm" class="login-form">
+                    <div class="input-group clay-input">
+                        <label for="email">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4Z" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M22 6L12 13L2 6" stroke="currentColor" stroke-width="1.5"/>
+                            </svg>
+                            Email
+                        </label>
+                        <input type="email" id="email" placeholder="student@example.com" required>
+                    </div>
+                    
+                    <div class="input-group clay-input">
+                        <label for="password">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M7 11V7C7 4.23858 9.23858 2 12 2C14.7614 2 17 4.23858 17 7V11" stroke="currentColor" stroke-width="1.5"/>
+                            </svg>
+                            Password
+                        </label>
+                        <input type="password" id="password" placeholder="Enter your password" required>
+                    </div>
+                    
+                    <div class="info-box">
+                        <p><strong>Student Login:</strong> 2313001-2313010 (Password same as roll number)</p>
+                        <p><strong>Faculty Login:</strong> faculty@gpnagpur.edu / faculty123</p>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary">
+                        <span>Login</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                </form>
+                
+                <div class="footer">
+                    © GurukulX | Government Polytechnic Nagpur | Created by Shashwat Developers Group
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/auth.js"></script>
+</body>
+</html>
