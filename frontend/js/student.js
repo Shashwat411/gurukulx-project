@@ -1,4 +1,4 @@
-const BACKEND_URL = 'https://gurukulx-l74a.onrender.com';
+const BACKEND_URL = 'https://gurukulx-project.onrender.com';
 const API_URL = `${BACKEND_URL}/api`;
 
 let currentUser = null;

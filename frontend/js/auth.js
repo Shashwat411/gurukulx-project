@@ -1,4 +1,5 @@
-const API_URL = 'http://localhost:5000/api';
+const BACKEND_URL = 'https://gurukulx-project.onrender.com';
+const API_URL = `${BACKEND_URL}/api`;
 
 function showStatus(message, type = 'error') {
     let status = document.getElementById('loginStatus');
