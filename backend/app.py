@@ -30,6 +30,13 @@ def is_timeout_error(err: Exception) -> bool:
     return 'timed out' in err_text or 'timeout' in err_text or 'write operation timed out' in err_text
 
 
+def update_submission_status(submission_id: str, status: str):
+    response = supabase_admin.table('submissions').update({'status': status}).eq('id', submission_id).execute()
+    if response.data:
+        return response.data[0]
+    return None
+
+
 @app.errorhandler(413)
 def file_too_large(_):
     return jsonify({'error': f'File too large. Maximum allowed size is {MAX_FILE_SIZE_MB}MB.'}), 413
@@ -90,6 +97,23 @@ def get_submissions():
         response = query.execute()
         return jsonify(response.data)
         
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/submissions', methods=['GET'])
+def get_submissions_compat():
+    student_id = request.args.get('student_id')
+
+    try:
+        query = supabase_admin.table('submissions').select('*').order('created_at', desc=True)
+
+        if student_id:
+            query = query.eq('student_id', student_id)
+
+        response = query.execute()
+        return jsonify(response.data)
+
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
@@ -177,16 +201,56 @@ def upload_submission():
 @app.route('/api/approve/<submission_id>', methods=['POST'])
 def approve_submission(submission_id):
     try:
-        response = supabase_admin.table('submissions').update({'status': 'approved'}).eq('id', submission_id).execute()
-        return jsonify({'message': 'Submission approved', 'submission': response.data[0]})
+        updated = update_submission_status(submission_id, 'approved')
+        if not updated:
+            return jsonify({'error': 'Submission not found'}), 404
+        return jsonify({'message': 'Submission approved', 'submission': updated})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
 @app.route('/api/reject/<submission_id>', methods=['POST'])
 def reject_submission(submission_id):
     try:
-        response = supabase_admin.table('submissions').update({'status': 'rejected'}).eq('id', submission_id).execute()
-        return jsonify({'message': 'Submission rejected', 'submission': response.data[0]})
+        updated = update_submission_status(submission_id, 'rejected')
+        if not updated:
+            return jsonify({'error': 'Submission not found'}), 404
+        return jsonify({'message': 'Submission rejected', 'submission': updated})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/approve', methods=['POST'])
+def approve_submission_compat():
+    try:
+        data = request.get_json(silent=True) or {}
+        submission_id = data.get('id')
+
+        if not submission_id:
+            return jsonify({'error': 'Missing submission id'}), 400
+
+        updated = update_submission_status(submission_id, 'approved')
+        if not updated:
+            return jsonify({'error': 'Submission not found'}), 404
+
+        return jsonify({'message': 'Submission approved', 'submission': updated})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/reject', methods=['POST'])
+def reject_submission_compat():
+    try:
+        data = request.get_json(silent=True) or {}
+        submission_id = data.get('id')
+
+        if not submission_id:
+            return jsonify({'error': 'Missing submission id'}), 400
+
+        updated = update_submission_status(submission_id, 'rejected')
+        if not updated:
+            return jsonify({'error': 'Submission not found'}), 404
+
+        return jsonify({'message': 'Submission rejected', 'submission': updated})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
@@ -209,4 +273,4 @@ def get_student(student_id):
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(host="0.0.0.0", port=5000)

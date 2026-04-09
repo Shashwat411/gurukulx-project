@@ -1,4 +1,5 @@
-const API_URL = 'http://localhost:5000/api';
+const BACKEND_URL = 'https://gurukulx-l74a.onrender.com';
+const API_URL = `${BACKEND_URL}/api`;
 
 let currentUser = null;
 let submissions = [];
@@ -57,9 +58,46 @@ async function loadSubmissions() {
         
         updateStats();
         renderSubmissions();
+        loadFacultyFeed();
     } catch (error) {
         console.error('Error loading submissions:', error);
     }
+}
+
+function loadFacultyFeed() {
+    const container = document.getElementById('facultyData');
+    if (!container) {
+        return;
+    }
+
+    fetch(`${BACKEND_URL}/submissions`)
+        .then(res => res.json())
+        .then(data => {
+            container.innerHTML = '';
+
+            data.forEach(item => {
+                container.innerHTML += `
+                    <div class="clay-card" style="margin-bottom: 12px; padding: 16px; border-radius: 12px;">
+                        <p><strong>Student ID:</strong> ${item.student_id}</p>
+                        <p><strong>Type:</strong> ${item.type}</p>
+                        <p><strong>Status:</strong> ${item.status}</p>
+                        <a href="${item.file_url}" target="_blank" style="color: var(--violet-medium);">View</a>
+                        <div class="action-buttons" style="margin-top: 10px;">
+                            <button class="btn-success" onclick="approve('${item.id}')">Approve</button>
+                            <button class="btn-danger" onclick="reject('${item.id}')">Reject</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            if (!data.length) {
+                container.innerHTML = '<p style="color: var(--text-secondary);">No submissions found.</p>';
+            }
+        })
+        .catch(err => {
+            console.error('Faculty feed fetch error:', err);
+            container.innerHTML = '<p style="color: var(--danger);">Unable to load faculty data.</p>';
+        });
 }
 
 // Update statistics
@@ -112,8 +150,8 @@ function renderSubmissions() {
                 <td>
                     <div class="action-buttons">
                         ${sub.status === 'pending' ? `
-                            <button class="btn-success" onclick="approveSubmission('${sub.id}')">Approve</button>
-                            <button class="btn-danger" onclick="rejectSubmission('${sub.id}')">Reject</button>
+                            <button class="btn-success" onclick="approve('${sub.id}')">Approve</button>
+                            <button class="btn-danger" onclick="reject('${sub.id}')">Reject</button>
                         ` : `
                             <span style="color: var(--text-secondary); font-size: 12px;">Reviewed</span>
                         `}
@@ -125,12 +163,16 @@ function renderSubmissions() {
 }
 
 // Approve submission
-async function approveSubmission(id) {
+async function approve(id) {
     if (!confirm('Approve this submission?')) return;
     
     try {
-        const response = await fetchWithTimeout(`${API_URL}/approve/${id}`, {
+        const response = await fetchWithTimeout(`${BACKEND_URL}/approve`, {
             method: 'POST'
+            ,headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id })
         }, 15000);
         
         if (response.ok) {
@@ -146,12 +188,16 @@ async function approveSubmission(id) {
 }
 
 // Reject submission
-async function rejectSubmission(id) {
+async function reject(id) {
     if (!confirm('Reject this submission?')) return;
     
     try {
-        const response = await fetchWithTimeout(`${API_URL}/reject/${id}`, {
+        const response = await fetchWithTimeout(`${BACKEND_URL}/reject`, {
             method: 'POST'
+            ,headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id })
         }, 15000);
         
         if (response.ok) {

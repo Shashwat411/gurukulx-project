@@ -1,4 +1,5 @@
-const API_URL = 'http://localhost:5000/api';
+const BACKEND_URL = 'https://gurukulx-l74a.onrender.com';
+const API_URL = `${BACKEND_URL}/api`;
 
 let currentUser = null;
 let currentStudent = null;
@@ -77,9 +78,43 @@ async function loadSubmissions() {
         
         updateStats();
         renderSubmissions();
+        loadStudentFeed();
     } catch (error) {
         console.error('Error loading submissions:', error);
     }
+}
+
+// Get all submissions of student (requested container view)
+function loadStudentFeed() {
+    const container = document.getElementById('studentData');
+    if (!container || !currentStudent) {
+        return;
+    }
+
+    fetch(`${BACKEND_URL}/submissions?student_id=${currentStudent.id}`)
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            container.innerHTML = '';
+
+            data.forEach(item => {
+                container.innerHTML += `
+                    <div class="clay-card" style="margin-bottom: 12px; padding: 16px; border-radius: 12px;">
+                        <p><strong>Type:</strong> ${item.type}</p>
+                        <p><strong>Status:</strong> ${item.status}</p>
+                        <a href="${item.file_url}" target="_blank" style="color: var(--violet-medium);">View File</a>
+                    </div>
+                `;
+            });
+
+            if (!data.length) {
+                container.innerHTML = '<p style="color: var(--text-secondary);">No submissions found.</p>';
+            }
+        })
+        .catch(err => {
+            console.error('Student feed fetch error:', err);
+            container.innerHTML = '<p style="color: var(--danger);">Unable to load student data.</p>';
+        });
 }
 
 // Update statistics
